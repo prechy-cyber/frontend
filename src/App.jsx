@@ -22,6 +22,7 @@ import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import SignUpp from './pages/SignUpp'
+import Props from "./pages/Props";
 
 const App = () =>{
   return (
@@ -33,6 +34,7 @@ const App = () =>{
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/signin' element={<Signin/>}/>
         <Route  path='/dashboard' element={<Dashboard/>}/>
+        <Route  path='/props' element={<Props/>}/>
         <Route  path='/notfound' element={<NotFound/>}/>
         <Route path = '/signupp' element = {<SignUpp/>}/>
       </Routes>
