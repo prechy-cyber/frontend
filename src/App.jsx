@@ -21,8 +21,9 @@ import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
-import SignUpp from './pages/SignUpp'
+// import SignUpp from './pages/SignUpp'
 import Props from "./pages/Props";
+import Cardio from "./pages/Cardio"
 
 const App = () =>{
   return (
@@ -36,7 +37,8 @@ const App = () =>{
         <Route  path='/dashboard' element={<Dashboard/>}/>
         <Route  path='/props' element={<Props/>}/>
         <Route  path='/notfound' element={<NotFound/>}/>
-        <Route path = '/signupp' element = {<SignUpp/>}/>
+        {/* <Route path = '/signupp' element = {<SignUpp/>}/> */}
+        <Route path = '/cardio' element = {<Cardio/>}/>
       </Routes>
       <Footer/>
     </>

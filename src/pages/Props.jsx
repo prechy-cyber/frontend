@@ -17,7 +17,7 @@ const Props = () => {
 
     <>
     <Btn title ="change" color = "btn btn-danger" text="text-info"/>
-    <Btn title ="beautify" color = "btn btn-info" text="text-secondary"/>
+    <Btn title ="beautify" color = "btn btn-info" text="text-info"/>
     <Btn title ="decorate" color = "btn btn-primary" text="text-success"/>
     <Btn title ="add" color = "btn btn-success" text="text-primary"/>
     <Btn title ="update" color = "btn btn-secondary" text="text-danger"/>
