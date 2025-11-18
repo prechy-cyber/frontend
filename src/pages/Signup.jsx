@@ -24,7 +24,7 @@ const SignUpp = () => {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:4000/user/register",
+        "https://backenddeplytest.onrender.com/user/register",
         { firstName, lastName, email, password },
         { headers: { "Content-Type": "application/json" } }
       );

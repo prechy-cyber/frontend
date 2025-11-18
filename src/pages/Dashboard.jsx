@@ -14,7 +14,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/user/all-students");
+        const response = await axios.get("https://backenddeplytest.onrender.com/user/all-students");
         setStudents(response.data.data); // assuming backend returns { success:true, data: [...] }
       } catch (error) {
         console.error("Error fetching students:", error.response || error.message);
