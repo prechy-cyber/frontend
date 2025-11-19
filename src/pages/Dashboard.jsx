@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import API from "../api";  // axios instance with JWT
+import API from "../api";  // Axios instance with JWT
 import { useNavigate } from "react-router-dom";
-import jwtDecode from "jwt-decode";
+import * as jwtDecode from "jwt-decode"; // ✅ Vite-compatible import
 
 const Dashboard = () => {
   const [students, setStudents] = useState([]);
@@ -23,7 +23,8 @@ const Dashboard = () => {
     }
 
     try {
-      const decoded = jwtDecode(token);
+      // Decode the token (Vite-compatible)
+      const decoded = jwtDecode.default(token);
       setLoggedInUser(decoded);
     } catch (err) {
       console.error("Invalid token:", err);
@@ -141,6 +142,7 @@ const StyledWrapper = styled.div`
 `;
 
 export default Dashboard;
+
 
 
 // import styled from "styled-components";
