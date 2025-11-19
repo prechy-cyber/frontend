@@ -1,40 +1,82 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
-import { useLocation } from "react-router-dom";
+import API from "../api";  // axios instance with JWT
+import { useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
 const Dashboard = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
-  // Get logged-in user from navigation state
-  const location = useLocation();
-  const loggedInUser = location.state?.user || { firstName: "User" };
+  const navigate = useNavigate();
 
+  // ============================
+  //  CHECK TOKEN ON PAGE LOAD
+  // ============================
   useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        const response = await axios.get("https://backenddeplytest.onrender.com/user/all-students");
-        setStudents(response.data.data); // assuming backend returns { success:true, data: [...] }
-      } catch (error) {
-        console.error("Error fetching students:", error.response || error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/signin");
+      return;
+    }
+
+    try {
+      const decoded = jwtDecode(token);
+      setLoggedInUser(decoded);
+    } catch (err) {
+      console.error("Invalid token:", err);
+      localStorage.removeItem("token");
+      navigate("/signin");
+    }
 
     fetchStudents();
   }, []);
 
+  // ============================
+  //  FETCH STUDENTS WITH TOKEN
+  // ============================
+  const fetchStudents = async () => {
+    try {
+      const response = await API.get("/user/all-students");
+      setStudents(response.data.data);
+    } catch (error) {
+      console.error("Error fetching students:", error.response || error.message);
+
+      if (error.response?.status === 401) {
+        alert("Session expired. Login again.");
+        localStorage.removeItem("token");
+        navigate("/signin");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ============================
+  //  LOGOUT FUNCTION
+  // ============================
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/signin");
+  };
+
   return (
     <StyledWrapper>
-      <h1>Welcome, {loggedInUser.firstName}!</h1>
-      <h2> this is the dashboard page</h2>
+      {/* HEADER */}
+      <div className="header">
+        <h1>Welcome, {loggedInUser?.firstName || "User"} 👋</h1>
+        <button className="logout" onClick={handleLogout}>Logout</button>
+      </div>
 
+      <h2>This is the dashboard page</h2>
+
+      {/* STUDENTS LIST */}
       {loading ? (
-        <p>would you like to eat some apples...</p>
+        <p>Loading data, please wait...</p>
       ) : students.length === 0 ? (
-        <p>oh no apples for you.</p>
+        <p>No students found.</p>
       ) : (
         <div className="cards-container">
           {students.map((student, index) => (
@@ -51,30 +93,39 @@ const Dashboard = () => {
   );
 };
 
+// ============================
+//  STYLES
+// ============================
 const StyledWrapper = styled.div`
-  padding: 40px 20px;
+  padding: 20px;
   font-family: "Poppins", sans-serif;
-  background: #f8f9fa;
-  min-height: 100vh;
 
-  h1 {
-    color: #007bff;
-    text-align: center;
-    margin-bottom: 10px;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #333;
+  .logout {
+    background: crimson;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+  }
+
+  .logout:hover {
+    background: darkred;
   }
 
   .cards-container {
+    margin-top: 25px;
     display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    max-width: 900px;
-    margin: auto;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
   }
 
   .card {
@@ -84,14 +135,8 @@ const StyledWrapper = styled.div`
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
-  .card h3 {
-    margin-bottom: 5px;
-    color: #333;
-  }
-
-  .card p {
-    margin: 5px 0;
-    color: #555;
+  h3 {
+    margin-bottom: 10px;
   }
 `;
 

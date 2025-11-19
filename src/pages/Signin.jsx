@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
+import API from "../api";
 import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
@@ -13,33 +13,33 @@ const Signin = () => {
     e.preventDefault();
 
     if (!email || !password) {
-      alert("Please enter both email and password!");
+      alert("Please enter email and password");
       return;
     }
 
     try {
       setLoading(true);
-      
 
-      const response = await axios.post(
-        "https://backenddeplytest.onrender.com/user/signin",
-        { email, password },
-        { headers: { "Content-Type": "application/json" } }
-      );
+      const res = await API.post("/user/signin", {
+        email,
+        password,
+      });
 
-      console.log("Signin response:", response.data);
-      // Send user ID or token as query param or context
-      navigate("/dashboard", { state: { user: response.data.user } });
+      console.log("Signin response:", res.data);
+
+      // Save token
+      localStorage.setItem("token", res.data.token);
+
+      alert("Login successful!");
+
+      navigate("/dashboard");
+
     } catch (error) {
       console.error(
         "Signin error:",
-        error.response ? error.response.data : error.message
+        error.response?.data || error.message
       );
-      alert(
-        `Login failed: ${
-          error.response?.data?.message || "Invalid email or password."
-        }`
-      );
+      alert(error.response?.data?.message || "Invalid credentials");
     } finally {
       setLoading(false);
     }
@@ -71,6 +71,12 @@ const Signin = () => {
     </StyledWrapper>
   );
 };
+
+
+
+
+
+
 
 // Styled-components
 const StyledWrapper = styled.div`

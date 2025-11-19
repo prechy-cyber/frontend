@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
+import API from "../api"; 
 import { useNavigate } from "react-router-dom";
 
 const SignUpp = () => {
@@ -23,22 +23,21 @@ const SignUpp = () => {
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        "https://backenddeplytest.onrender.com/user/register",
-        { firstName, lastName, email, password },
-        { headers: { "Content-Type": "application/json" } }
-      );
+      const response = await API.post("/user/register", {
+        firstName,
+        lastName,
+        email,
+        password
+      });
 
       console.log("Signup response:", response.data);
-      alert("✅ Signup successful! Please login.");
+
+      alert("Signup successful! Please login.");
       navigate("/signin");
+
     } catch (err) {
-      console.error("Signup error:", err.response ? err.response.data : err.message);
-      alert(
-        `Signup failed: ${
-          err.response?.data?.message || "Please try again later."
-        }`
-      );
+      console.error("Signup error:", err.response?.data || err.message);
+      alert(err.response?.data?.message || "Signup failed");
     } finally {
       setLoading(false);
     }
@@ -84,6 +83,7 @@ const SignUpp = () => {
     </StyledWrapper>
   );
 };
+
 
 // Styled-components
 const StyledWrapper = styled.div`
