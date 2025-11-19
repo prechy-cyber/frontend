@@ -4,7 +4,7 @@ import styled from "styled-components";
 import API from "../api"; 
 import { useNavigate } from "react-router-dom";
 
-const SignUpp = () => {
+const Signup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -141,4 +141,4 @@ const StyledWrapper = styled.div`
   }
 `;
 
-export default SignUpp;
+export default Signup;

@@ -2,7 +2,8 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://backenddeplytest.onrender.com",
+  baseURL: process.env.REACT_APP_API_URL,
+  
 });
 
 // Attach JWT to every request automatically
