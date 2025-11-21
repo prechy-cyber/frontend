@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import styled from "styled-components";
 import API from "../api"; 
@@ -14,7 +13,7 @@ const Signup = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-console.log("🌐 Using API URL:", API.defaults.baseURL);
+    console.log("🌐 Using API URL:", API.defaults.baseURL);
 
     if (!firstName || !lastName || !email || !password) {
       alert("Please fill all fields!");
@@ -41,6 +40,18 @@ console.log("🌐 Using API URL:", API.defaults.baseURL);
       alert(err.response?.data?.message || "Signup failed");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // ✅ Quick backend test
+  const testBackend = async () => {
+    try {
+      const res = await API.get("/user"); // your backend root or a test route
+      console.log("✅ Backend test response:", res.data);
+      alert("Backend is reachable! Check console for response.");
+    } catch (err) {
+      console.error("❌ Backend test failed:", err.response || err.message);
+      alert("Backend test failed. Check console.");
     }
   };
 
@@ -81,14 +92,18 @@ console.log("🌐 Using API URL:", API.defaults.baseURL);
           {loading ? "Signing up..." : "Sign Up"}
         </button>
       </form>
+
+      {/* ✅ Button to test backend */}
+      <button onClick={testBackend} style={{ marginTop: "20px" }}>
+        Test Backend Connection
+      </button>
     </StyledWrapper>
   );
 };
 
-
-// Styled-components
 const StyledWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;

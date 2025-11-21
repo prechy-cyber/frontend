@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL ||"https://backenddeplytest.onrender.com"
+  baseURL: process.env.REACT_APP_API_URL
 });
 
 // Log the base URL to make sure it’s correct
