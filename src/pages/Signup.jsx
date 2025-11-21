@@ -13,7 +13,9 @@ const Signup = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    console.log("🌐 Using API URL:", API.defaults.baseURL);
+    // console.log("🌐 Using API URL:", API.defaults.baseURL);
+    console.log("🌐 REACT_APP_API_URL:", import.meta.env.VITE_API_URL);
+
 
     if (!firstName || !lastName || !email || !password) {
       alert("Please fill all fields!");
