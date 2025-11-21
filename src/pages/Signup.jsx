@@ -14,6 +14,7 @@ const Signup = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
+console.log("🌐 Using API URL:", API.defaults.baseURL);
 
     if (!firstName || !lastName || !email || !password) {
       alert("Please fill all fields!");
