@@ -20,7 +20,7 @@ const Signin = () => {
     try {
       setLoading(true);
 
-      const res = await API.post("/user/signin", {
+      const res = await API.post("/signin", {
         email,
         password,
       });

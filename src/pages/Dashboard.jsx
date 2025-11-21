@@ -40,7 +40,7 @@ const Dashboard = () => {
   // ============================
   const fetchStudents = async () => {
     try {
-      const response = await API.get("/user/all-students");
+      const response = await API.get("/all-students");
       setStudents(response.data.data);
     } catch (error) {
       console.error("Error fetching students:", error.response || error.message);
