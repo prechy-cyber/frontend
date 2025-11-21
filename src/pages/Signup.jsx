@@ -23,7 +23,7 @@ const Signup = () => {
     try {
       setLoading(true);
 
-      const response = await API.post("/register", {
+      const response = await API.post("/user/register", {
         firstName,
         lastName,
         email,

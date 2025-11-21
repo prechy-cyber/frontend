@@ -3,8 +3,10 @@ import axios from "axios";
 
 const API = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
-  
 });
+
+// Log the base URL to make sure it’s correct
+console.log("🌐 API base URL:", API.defaults.baseURL);
 
 // Attach JWT to every request automatically
 API.interceptors.request.use((req) => {
@@ -16,3 +18,4 @@ API.interceptors.request.use((req) => {
 });
 
 export default API;
+
